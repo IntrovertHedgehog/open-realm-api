@@ -8,7 +8,10 @@ const sequelize =
     dialect: 'postgres',
     protocol: 'postgres',
     dialectOptions: {
-      ssl: true
+      ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
     }
   })
     : new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
