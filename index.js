@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 const compression = require("compression");
 const helmet = require("helmet");
 const path = require("path");
-const rateLimit = require('express-rate-limit');
+// const rateLimit = require('express-rate-limit');
 const {body, check} = require('express-validator');
 
 dotenv.config();
@@ -50,7 +50,7 @@ app.use(helmet());
 //   max: 5, // 5 requests,
 // });
 
-app.use(limiter);
+// app.use(limiter);
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
