@@ -45,10 +45,10 @@ app.use(compression());
 // protect from well-known vulnerability
 app.use(helmet());
 
-const limiter = rateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 5, // 5 requests,
-});
+// const limiter = rateLimit({
+//   windowMs: 1 * 60 * 1000, // 1 minute
+//   max: 5, // 5 requests,
+// });
 
 app.use(limiter);
 
