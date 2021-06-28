@@ -14,9 +14,9 @@ const app = express();
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-const whitelist = ['https://www.hedgeing.xyz', 'https://theopenrealm.herokuapp.com', 'http://localhost:3000'];
+const whitelist = ['https://www.hedgeing.xyz', 'https://theopenrealm.herokuapp.com'];
 
-const corsOptions = {
+const corsOptions = isProduction ? {
   origin: (origin, callback) => {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true)
@@ -24,7 +24,9 @@ const corsOptions = {
       callback(new Error('Not allowed by CORS'))
     }
   }
-}
+} : {
+  origin: 'http://localhost:3000'
+};
 
 app.use(cors(corsOptions));
 
