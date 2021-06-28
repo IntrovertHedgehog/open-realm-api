@@ -12,11 +12,11 @@ dotenv.config();
 
 const app = express();
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isproduction = process.env.NODE_ENV === 'production';
 
 const whitelist = ['https://www.hedgeing.xyz', 'https://theopenrealm.herokuapp.com'];
 
-const corsOptions = isProduction ? {
+const corsOptions = isproduction ? {
   origin: (origin, callback) => {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true)
