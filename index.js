@@ -7,6 +7,8 @@ const helmet = require("helmet");
 const path = require("path");
 const rateLimit = require('express-rate-limit');
 const {body, check} = require('express-validator');
+const checkJwt = require('./app/config/jwt.config');
+// const axios = require('axios');
 
 dotenv.config();
 
@@ -57,7 +59,7 @@ app.use(helmet());
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
-  max: 50, // 50 requests,
+  max: 200, // 50 requests,
 });
 
 app.use(limiter);
@@ -74,6 +76,8 @@ db.sequelize.sync();
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and re-sync db.");
 // });
+
+app.use(checkJwt());
 
 require("./app/routes/book.route.js")(app);
 require("./app/routes/chapter.route.js")(app);
