@@ -43,8 +43,14 @@ exports.findAll = (req, res) => {
   const author_id = req.query.author_id;
 
   var condition = (title || content || author_id) ? {
-    title: { [Op.iLike]: `%${title ? title : ""}%`},
-    content: { [Op.iLike]: `%${content ? content : ""}%`},
+    title: { [Op.iLike]: { [Op.any]: title ? `%${title.trim()}%`
+      .replace(/ +(?= )/g,'')
+      .replace(' ','% %')
+      .split(' ') : ["%"]}},
+    content: { [Op.iLike]: { [Op.any]: content ? `%${content.trim()}%`
+      .replace(/ +(?= )/g,'')
+      .replace(' ','% %')
+      .split(' ') : ["%"]}},
     author_id: { [Op.like]: `${author_id ? author_id : "%"}`}
   } : null;
 
