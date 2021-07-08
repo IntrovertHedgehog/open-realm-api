@@ -2,6 +2,17 @@ const db = require("../models");
 const Writing = db.writings;
 const Op = db.Sequelize.Op;
 
+(prop) => {
+    (a, b) =>  {
+        if (a[prop] > b[prop]) {
+            return 1;
+        } else if (a[prop] < b[prop]) {
+            return -1;
+        }
+        return 0;
+    }
+}
+
 // Create new writing
 exports.create = (req, res) => {
   // Validate request
@@ -61,6 +72,14 @@ exports.findAll = (req, res) => {
 
   Writing.findAll({ where: condition })
   .then(data => {
+    data = data.sort( (a, b) =>  {
+      if (a["createdAt"] > b["createdAt"]) {
+        return -1;
+      } else if (a["createdAt"] < b["createdAt"]) {
+        return 1;
+      }
+      return 0;
+    });
     res.send(data);
   })
   .catch(err => {

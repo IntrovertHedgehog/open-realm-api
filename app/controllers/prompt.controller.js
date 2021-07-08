@@ -56,6 +56,14 @@ exports.findAll = (req, res) => {
 
   Prompt.findAll({ where: condition })
   .then(data => {
+    data = data.sort( (a, b) =>  {
+      if (a["createdAt"] > b["createdAt"]) {
+        return -1;
+      } else if (a["createdAt"] < b["createdAt"]) {
+        return 1;
+      }
+      return 0;
+    });
     res.send(data);
   })
   .catch(err => {
