@@ -67,7 +67,8 @@ exports.findAll = (req, res) => {
   } : null;
 
   if (prompt_id) {
-    condition.prompt_id = { [Op.eq]: `${prompt_id}`};
+    if (condition) condition.prompt_id = { [Op.eq]: `${prompt_id}`}
+    else condition = { prompt_id: { [Op.eq]: `${prompt_id}`}};
   }
 
   Writing.findAll({ where: condition })
