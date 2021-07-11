@@ -41,6 +41,7 @@ exports.findAll = (req, res) => {
   const title = req.query.title;
   const content = req.query.content;
   const author_id = req.query.author_id;
+  const q = req.query.q;
 
   var condition = (title || content || author_id) ? {
     title: { [Op.iLike]: { [Op.any]: title ? `%${title.trim()}%`
@@ -52,17 +53,23 @@ exports.findAll = (req, res) => {
       .replace(' ','% %')
       .split(' ') : ["%"]}},
     author_id: { [Op.like]: `${author_id ? author_id : "%"}`}
+  } : q ? {
+    [Op.or]: [
+      { title: { [Op.iLike]: { [Op.any]: `%${q.trim()}%`
+        .replace(/ +(?= )/g,'')
+        .replace(' ','% %')
+        .split(' ')}}},
+      { content: { [Op.iLike]: { [Op.any]: `%${q.trim()}%`
+        .replace(/ +(?= )/g,'')
+        .replace(' ','% %')
+        .split(' ')}}}
+      ]
   } : null;
 
   Prompt.findAll({ where: condition })
   .then(data => {
     data = data.sort( (a, b) =>  {
-      if (a["createdAt"] > b["createdAt"]) {
-        return -1;
-      } else if (a["createdAt"] < b["createdAt"]) {
-        return 1;
-      }
-      return 0;
+      return b["id"] - a["id"];
     });
     res.send(data);
   })
