@@ -16,7 +16,7 @@ const Op = db.Sequelize.Op;
 // Create new writing
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.title) {
+  if (!(req.body.title && req.body.content && req.body.prompt_id && req.body.author_id)) {
     res.status(400).send({
       message: "Content can not be empty!"
     });

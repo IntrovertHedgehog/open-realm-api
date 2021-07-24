@@ -5,9 +5,9 @@ const Op = db.Sequelize.Op;
 // Create new prompt
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.title) {
+  if (!(req.body.title && req.body.content && req.body.author_id)) {
     res.status(400).send({
-      message: "Content can not be empty!"
+      message: "Title and content can not be empty!"
     });
     return;
   }
